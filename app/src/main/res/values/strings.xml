@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">Explora Castellar</string>
+
+    <!-- Zonas -->
+    <string name="zona_castellar">Castellar</string>
+    <string name="zona_oliveral">L\'Oliveral</string>
+    <string name="zona_oliveral_pinedo">Entre l\'Oliveral y Pinedo</string>
+    <string name="zona_tremolar">El Tremolar (Alfafar)</string>
+    <string name="zona_saler">El Saler</string>
+
+    <!-- Lugares -->
+    <string name="lugar_1_nombre">Núcleo antiguo de Castellar</string>
+    <string name="lugar_1_desc">El pueblo nació de juntar dos núcleos: Castellar, al norte de la Carrera del Pi, y l\'Oliveral, al sur.</string>
+
+    <string name="lugar_2_nombre">Iglesia de Nuestra Señora de Lepanto</string>
+    <string name="lugar_2_desc">La parroquia de Castellar, una de las paradas de la ruta Pobles del Sud del Ayuntamiento.</string>
+
+    <string name="lugar_3_nombre">Alquería del Brosquil</string>
+    <string name="lugar_3_desc">Alquería protegida del siglo XVIII con patio porticado, rodeada de naranjos.</string>
+
+    <string name="lugar_4_nombre">Camí del Tremolar</string>
+    <string name="lugar_4_desc">Camino de huerta entre l\'Oliveral y Pinedo, con barracas y casas tradicionales junto a la Albufera.</string>
+
+    <string name="lugar_5_nombre">Puerto de El Tremolar</string>
+    <string name="lugar_5_desc">Pequeño embarcadero entre canales y arrozales. Antes llegaban aquí barcas cargadas de arroz para trillarlo.</string>
+
+    <string name="lugar_6_nombre">Estany del Pujol</string>
+    <string name="lugar_6_desc">El lago de El Saler, en plena Devesa. Uno de los mejores sitios para ver la puesta de sol.</string>
+
+    <!-- Retos -->
+    <string name="reto_1">¿Qué calle separa Castellar del Oliveral?</string>
+    <string name="reto_2">Haz una foto del cartel de la Carrera del Pi</string>
+    <string name="reto_3">Haz una foto de la fachada de la iglesia</string>
+    <string name="reto_4">¿A qué batalla hace referencia el nombre de la iglesia?</string>
+    <string name="reto_5">¿De qué siglo es la Alquería del Brosquil?</string>
+    <string name="reto_6">Busca qué árboles frutales rodean la alquería</string>
+    <string name="reto_7">Encuentra una barraca y hazle una foto (sin entrar en propiedad privada)</string>
+    <string name="reto_8">¿Qué parque natural empieza justo al lado del camino?</string>
+    <string name="reto_9">¿A qué municipio pertenece El Tremolar?</string>
+    <string name="reto_10">En las fiestas de junio, ¿en qué llega la Virgen al Tremolar?</string>
+    <string name="reto_11">Haz una foto de una barca amarrada en el embarcadero</string>
+    <string name="reto_12">Haz una foto de la puesta de sol desde el lago</string>
+    <string name="reto_13">¿Cómo se llama el bosque que rodea el lago?</string>
 </resources>
