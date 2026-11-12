@@ -10,7 +10,7 @@
 
     <!-- Lugares -->
     <string name="lugar_1_nombre">Núcleo antiguo de Castellar</string>
-    <string name="lugar_1_desc">El pueblo nació de juntar dos núcleos: Castellar, al norte de la Carrera del Pi, y l\'Oliveral, al sur.</string>
+    <string name="lugar_1_desc">El pueblo nació de juntar dos núcleos: Castellar, al norte de la Carretera del Pi, y l\'Oliveral, al sur.</string>
 
     <string name="lugar_2_nombre">Iglesia de Nuestra Señora de Lepanto</string>
     <string name="lugar_2_desc">La parroquia de Castellar, una de las paradas de la ruta Pobles del Sud del Ayuntamiento.</string>
@@ -29,7 +29,7 @@
 
     <!-- Retos -->
     <string name="reto_1">¿Qué calle separa Castellar del Oliveral?</string>
-    <string name="reto_2">Haz una foto del cartel de la Carrera del Pi</string>
+    <string name="reto_2">Haz una foto del cartel de la Carretera del Pi</string>
     <string name="reto_3">Haz una foto de la fachada de la iglesia</string>
     <string name="reto_4">¿A qué batalla hace referencia el nombre de la iglesia?</string>
     <string name="reto_5">¿De qué siglo es la Alquería del Brosquil?</string>

@@ -50,8 +50,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.victorbustos.exploracastellar.data.model.Lugar
@@ -59,14 +62,27 @@ import com.victorbustos.exploracastellar.data.DatosEjemplo
 import com.victorbustos.exploracastellar.ui.theme.ExploraCastellarTheme
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ExploraCastellarTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    PantallaPrincipal(Modifier.padding(innerPadding))
-                }
+                Scaffold(
+                    topBar = {
+                        CenterAlignedTopAppBar(title = { Text(stringResource(R.string.app_name),
+                            Modifier.padding(20.dp),
+                            fontSize = 40.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontStyle = FontStyle.Italic,
+                            letterSpacing = 2.sp) },
+                            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                                containerColor = colorResource(R.color.green_title),
+                                titleContentColor = Color.Black
+                            ))
+
+                    }
+                ) { innerPadding -> PantallaPrincipal(Modifier.padding(innerPadding)) }
             }
         }
     }
@@ -78,7 +94,6 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
     var lugares by remember() { mutableStateOf(DatosEjemplo.lugares) }
     val visitados = lugares.count { it.visitado }
     val total = lugares.size
-    val context = LocalContext.current
     val lugaresFiltrados = lugares.filter {
         stringResource(it.nombre).contains(busqueda, ignoreCase = true) ||
                 stringResource(it.zona).contains(busqueda, ignoreCase = true)
@@ -88,23 +103,6 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .then(modifier)
     ) {
-        Spacer(Modifier.padding(10.dp))
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .background(colorResource(R.color.green_title)),
-            Arrangement.Center
-        ) {
-            Text(
-                "Explora Castellar",
-                Modifier.padding(20.dp),
-                fontSize = 40.sp,
-                fontWeight = FontWeight.Bold,
-                fontStyle = FontStyle.Italic,
-                letterSpacing = 2.sp
-            )
-        }
-        Spacer(Modifier.padding(5.dp))
         OutlinedTextField(
             value = busqueda,
             onValueChange = { busqueda = it },

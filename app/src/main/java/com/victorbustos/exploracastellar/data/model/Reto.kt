@@ -5,6 +5,6 @@ import androidx.annotation.StringRes
 data class Reto(
     val id: Int,
     @StringRes val enunciado:Int,
-    val dificultad: Enum<Dificultad>,
+    val dificultad: Dificultad,
     val tipo: TipoReto
 )
