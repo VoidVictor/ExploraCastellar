@@ -13,34 +13,33 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = verdeOscuro,
-    onPrimary = Color.White,
-    secondary = verdeOscuro,
-    onSecondary = Color.White,
-    tertiary = verdeClaro,
-    primaryContainer = gris,
-    onPrimaryContainer = Color.White,
-    secondaryContainer = grisCheckedBox,
-    onSecondaryContainer = Color.White,
-    surface = verdeMasOscuro,
-    onSurface = verdeClaro,
-    primaryFixed = verdeOscuro
+    primary = VerdeOscuro,
+    onPrimary = Blanco,
+    secondary = VerdeOscuro,
+    onSecondary = Blanco,
+    secondaryContainer = GrisClaro,
+    onSecondaryContainer = Blanco,
+    tertiary = VerdeClaro,
+    tertiaryContainer = VerdeMasOscuro,
+    surface = Gris,
+    onSurface = Blanco,
+    onSurfaceVariant = Blanco,
+    outlineVariant = GrisBorde
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = verdeTitulo,
-    onPrimary = Color.Black,
-    secondary = verdeTitulo,
-    onSecondary = verdeSemiOscuro,
-    tertiary = verdeOscuro,
-    primaryContainer = Color.White,
-    onPrimaryContainer = Color.Black,
-    secondaryContainer = grisCheckedBox,
-    onSecondaryContainer = Color.White,
-    surface = verdeSemiOscuro,
-    onSurface = verdeOscuro,
-    primaryFixed = verdeOscuro
-
+    primary = VerdeTitulo,
+    onPrimary = Negro,
+    secondary = VerdeOscuro,
+    onSecondary = Blanco,
+    secondaryContainer = GrisClaro,
+    onSecondaryContainer = Blanco,
+    tertiary = VerdeOscuro,
+    tertiaryContainer = VerdeSemiOscuro,
+    surface = Blanco,
+    onSurface = Negro,
+    onSurfaceVariant = Gris,
+    outlineVariant = GrisBorde
 )
 
 @Composable

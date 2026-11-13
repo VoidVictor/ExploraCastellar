@@ -96,7 +96,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun PantallaPrincipal(modifier: Modifier = Modifier) {
-    var busqueda by rememberSaveable() { mutableStateOf("") }
     var lugares by rememberSaveable() { mutableStateOf(DatosEjemplo.lugares) }
     val visitados = lugares.count { it.visitado }
     val total = lugares.size
@@ -109,22 +108,12 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .then(modifier)
     ) {
-        OutlinedTextField(
-            value = busqueda,
-            onValueChange = { busqueda = it },
-            label = { Text(stringResource(R.string.titulo_buscador), color = MaterialTheme.colorScheme.tertiary) },
-            placeholder = { Text(stringResource(R.string.placeholder_buscador)) },
-            singleLine = true,
-            colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = MaterialTheme.colorScheme.tertiary),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
+        Buscador()
         Column(
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(16.dp))
+                .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(16.dp))
                 .padding(16.dp)
         ) {
             Text(
@@ -140,8 +129,8 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
             )
             LinearProgressIndicator(
                 progress = { progresoAnimado },
-                color = MaterialTheme.colorScheme.onSurface,
-                trackColor = MaterialTheme.colorScheme.surface,
+                color = MaterialTheme.colorScheme.tertiary,
+                trackColor = MaterialTheme.colorScheme.tertiaryContainer,
                 strokeCap = StrokeCap.Round,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -170,6 +159,23 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
         }
     }
 }
+
+@Composable
+fun Buscador() {
+    var busqueda by rememberSaveable() { mutableStateOf("") }
+    OutlinedTextField(
+        value = busqueda,
+        onValueChange = { busqueda = it },
+        label = { Text(stringResource(R.string.titulo_buscador), color = MaterialTheme.colorScheme.tertiary) },
+        placeholder = { Text(stringResource(R.string.placeholder_buscador)) },
+        singleLine = true,
+        colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = MaterialTheme.colorScheme.tertiary),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    )
+}
+
 @Composable
 fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
     val altoFoto = 140.dp
@@ -178,10 +184,10 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(1.dp, Color(0xFFE3E6E8))
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
-        Box (Modifier.background(MaterialTheme.colorScheme.primaryContainer)){
+        Box {
             Column {
                 Image(
                     painter = painterResource(lugar.imagen),
@@ -203,33 +209,36 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            color = MaterialTheme.colorScheme.onPrimary
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(Modifier.height(4.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
                                 Icons.Outlined.LocationOn,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                 modifier = Modifier.size(14.dp)
                             )
                             Spacer(Modifier.width(4.dp))
-                            Text(stringResource(lugar.zona), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
+                            Text(stringResource(lugar.zona), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                     Checkbox(
                         checked = lugar.visitado,
                         onCheckedChange = onVisitadoChange,
                         colors = CheckboxDefaults.colors(
-                            checkedColor = MaterialTheme.colorScheme.primaryFixed,
-                            uncheckedColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            checkedColor = MaterialTheme.colorScheme.secondary,
+                            uncheckedColor = MaterialTheme.colorScheme.onSurface
                         )
                     )
                 }
             }
 
             val colorFondo by animateColorAsState(
-                targetValue = if (lugar.visitado) MaterialTheme.colorScheme.primaryFixed else MaterialTheme.colorScheme.secondaryContainer
+                targetValue = if (lugar.visitado) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
+            )
+            val colorTextoInsignia by animateColorAsState(
+                targetValue = if (lugar.visitado) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSecondaryContainer
             )
 
             val texto = if (lugar.visitado) stringResource(R.string.visitado) else stringResource(
@@ -247,13 +256,13 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
                 Icon(
                     Icons.Filled.Check,
                     contentDescription = null,
-                    tint = Color.White,
+                    tint = colorTextoInsignia,
                     modifier = Modifier.size(14.dp)
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
                     texto,
-                    color = Color.White,
+                    color = colorTextoInsignia,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold
                 )
