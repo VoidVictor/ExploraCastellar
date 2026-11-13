@@ -106,8 +106,8 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = busqueda,
             onValueChange = { busqueda = it },
-            label = { Text("Buscar lugar") },
-            placeholder = { Text("Alquería, Tremolar, Saler,...") },
+            label = { Text(stringResource(R.string.titulo_buscador)) },
+            placeholder = { Text(stringResource(R.string.placeholder_buscador)) },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
@@ -121,7 +121,7 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
                 .padding(16.dp)
         ) {
             Text(
-                "$visitados de $total lugares visitados",
+                stringResource(R.string.titulo_contador_barra, visitados, total),
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
             )
@@ -232,7 +232,7 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
                     )
                     Spacer(Modifier.width(4.dp))
                     Text(
-                        "Visitado",
+                        stringResource(R.string.texto_checkbox),
                         color = Color.White,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold

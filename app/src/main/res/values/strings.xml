@@ -41,4 +41,14 @@
     <string name="reto_11">Haz una foto de una barca amarrada en el embarcadero</string>
     <string name="reto_12">Haz una foto de la puesta de sol desde el lago</string>
     <string name="reto_13">¿Cómo se llama el bosque que rodea el lago?</string>
+
+    <!-- Buscador -->
+    <string name="placeholder_buscador">Alquería, Tremolar, Saler,...</string>
+    <string name="titulo_buscador">Buscar lugar</string>
+
+    <!-- Barra progreso, contador de visitados -->
+    <string name="titulo_contador_barra">%1$d de %2$d lugares visitados</string>
+
+    <!-- Checkbox -->
+    <string name="texto_checkbox">Visitado</string>
 </resources>
