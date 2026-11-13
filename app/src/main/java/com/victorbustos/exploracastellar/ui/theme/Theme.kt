@@ -9,35 +9,45 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = verdeOscuro,
+    onPrimary = Color.White,
+    secondary = verdeOscuro,
+    onSecondary = Color.White,
+    tertiary = verdeClaro,
+    primaryContainer = gris,
+    onPrimaryContainer = Color.White,
+    secondaryContainer = grisCheckedBox,
+    onSecondaryContainer = Color.White,
+    surface = verdeMasOscuro,
+    onSurface = verdeClaro,
+    primaryFixed = verdeOscuro
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = verdeTitulo,
+    onPrimary = Color.Black,
+    secondary = verdeTitulo,
+    onSecondary = verdeSemiOscuro,
+    tertiary = verdeOscuro,
+    primaryContainer = Color.White,
+    onPrimaryContainer = Color.Black,
+    secondaryContainer = grisCheckedBox,
+    onSecondaryContainer = Color.White,
+    surface = verdeSemiOscuro,
+    onSurface = verdeOscuro,
+    primaryFixed = verdeOscuro
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
 )
 
 @Composable
 fun ExploraCastellarTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

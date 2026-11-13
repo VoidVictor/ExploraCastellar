@@ -62,5 +62,6 @@
     </plurals>
 
     <!-- Checkbox -->
-    <string name="texto_checkbox">Visitado</string>
+    <string name="visitado">Visitado</string>
+    <string name="sin_visitar">Sin visitar</string>
 </resources>

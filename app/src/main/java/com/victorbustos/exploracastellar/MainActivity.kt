@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -54,6 +57,8 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
@@ -78,8 +83,8 @@ class MainActivity : ComponentActivity() {
                             fontStyle = FontStyle.Italic,
                             letterSpacing = 2.sp) },
                             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                containerColor = colorResource(R.color.green_title),
-                                titleContentColor = Color.Black
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                titleContentColor = MaterialTheme.colorScheme.onPrimary
                             ))
 
                     }
@@ -92,7 +97,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun PantallaPrincipal(modifier: Modifier = Modifier) {
     var busqueda by rememberSaveable() { mutableStateOf("") }
-    var lugares by remember() { mutableStateOf(DatosEjemplo.lugares) }
+    var lugares by rememberSaveable() { mutableStateOf(DatosEjemplo.lugares) }
     val visitados = lugares.count { it.visitado }
     val total = lugares.size
     val lugaresFiltrados = lugares.filter {
@@ -107,9 +112,10 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = busqueda,
             onValueChange = { busqueda = it },
-            label = { Text(stringResource(R.string.titulo_buscador)) },
+            label = { Text(stringResource(R.string.titulo_buscador), color = MaterialTheme.colorScheme.tertiary) },
             placeholder = { Text(stringResource(R.string.placeholder_buscador)) },
             singleLine = true,
+            colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = MaterialTheme.colorScheme.tertiary),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
@@ -118,19 +124,24 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .background(Color(0xFFDDEDE8), RoundedCornerShape(16.dp))
+                .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(16.dp))
                 .padding(16.dp)
         ) {
             Text(
                 pluralStringResource(R.plurals.contador_visitados, visitados, visitados, total),
+                color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
             )
             Spacer(Modifier.padding(5.dp))
+            val progresoAnimado by animateFloatAsState(
+                targetValue = if (total == 0) 0f else visitados.toFloat() / total,
+                animationSpec = tween(durationMillis = 300)
+            )
             LinearProgressIndicator(
-                progress = { if (total == 0) 0f else visitados.toFloat() / total },
-                color = Color(0xFF0A5450),
-                trackColor = Color(0xFFB7DCD6),
+                progress = { progresoAnimado },
+                color = MaterialTheme.colorScheme.onSurface,
+                trackColor = MaterialTheme.colorScheme.surface,
                 strokeCap = StrokeCap.Round,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -141,7 +152,8 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
+                .weight(1f)
+                .padding(top = 15.dp),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -169,7 +181,7 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
         colors = CardDefaults.cardColors(containerColor = Color.White),
         border = BorderStroke(1.dp, Color(0xFFE3E6E8))
     ) {
-        Box {
+        Box (Modifier.background(MaterialTheme.colorScheme.primaryContainer)){
             Column {
                 Image(
                     painter = painterResource(lugar.imagen),
@@ -190,55 +202,61 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                         Spacer(Modifier.height(4.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
                                 Icons.Outlined.LocationOn,
                                 contentDescription = null,
-                                tint = Color.Gray,
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier.size(14.dp)
                             )
                             Spacer(Modifier.width(4.dp))
-                            Text(stringResource(lugar.zona), fontSize = 13.sp, color = Color.Gray)
+                            Text(stringResource(lugar.zona), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
                         }
                     }
                     Checkbox(
                         checked = lugar.visitado,
                         onCheckedChange = onVisitadoChange,
                         colors = CheckboxDefaults.colors(
-                            checkedColor = Color(0xFF0A5450),
-                            uncheckedColor = Color.Gray
+                            checkedColor = MaterialTheme.colorScheme.primaryFixed,
+                            uncheckedColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     )
                 }
             }
 
-            if (lugar.visitado) {
-                Row(
-                    Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(top = altoFoto - altoInsignia / 2, end = 10.dp)
-                        .height(altoInsignia)
-                        .background(Color(0xFF0A5450), RoundedCornerShape(50))
-                        .padding(horizontal = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        Icons.Filled.Check,
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(14.dp)
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(
-                        stringResource(R.string.texto_checkbox),
-                        color = Color.White,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
+            val colorFondo by animateColorAsState(
+                targetValue = if (lugar.visitado) MaterialTheme.colorScheme.primaryFixed else MaterialTheme.colorScheme.secondaryContainer
+            )
+
+            val texto = if (lugar.visitado) stringResource(R.string.visitado) else stringResource(
+                R.string.sin_visitar
+            )
+            Row(
+                Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = altoFoto - altoInsignia / 2, end = 10.dp)
+                    .height(altoInsignia)
+                    .background(colorFondo, RoundedCornerShape(50))
+                    .padding(horizontal = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    Icons.Filled.Check,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(14.dp)
+                )
+                Spacer(Modifier.width(4.dp))
+                Text(
+                    texto,
+                    color = Color.White,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
         }
     }
