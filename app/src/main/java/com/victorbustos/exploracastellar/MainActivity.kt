@@ -69,10 +69,15 @@ import com.victorbustos.exploracastellar.data.model.Lugar
 import com.victorbustos.exploracastellar.data.DatosEjemplo
 import com.victorbustos.exploracastellar.ui.theme.ExploraCastellarTheme
 
+/**
+ * Actividad principal de la app. Muestra ExploraCastellar y registra en Logcat
+ * cada paso del ciclo de vida con la etiqueta [TAG].
+ *
+ * @author Victor Bustos Vallejo
+ * @since 1.0
+ */
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     private val TAG = "CicloVida"
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
@@ -109,6 +114,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/**
+ * Estructura general de la app: barra superior con el título y la pantalla principal.
+ *
+ * El título se encoge solo si no cabe en una línea, por ejemplo con la fuente grande.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppExplora() {
@@ -139,6 +149,14 @@ fun AppExplora() {
     ) { innerPadding -> PantallaPrincipal(Modifier.padding(innerPadding)) }
 }
 
+/**
+ * Pantalla principal con el buscador, el contador de visitados y la lista de lugares.
+ *
+ * Guarda el estado de la pantalla (texto buscado y lugares) y se lo pasa
+ * a los componentes hijos, que avisan de los cambios con eventos.
+ *
+ * @param modifier Modificador que se aplica a la pantalla.
+ */
 @Composable
 fun PantallaPrincipal(modifier: Modifier = Modifier) {
     var busqueda by rememberSaveable() { mutableStateOf("") }
@@ -146,8 +164,10 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
     val visitados = lugares.count { it.visitado }
     val total = lugares.size
     val lugaresFiltrados = lugares.filter {
-        stringResource(it.nombre).contains(busqueda, ignoreCase = true) ||
-                stringResource(it.zona).contains(busqueda, ignoreCase = true)
+        val nombre = stringResource(it.nombre)
+        val zona = stringResource(it.zona)
+        nombre.contains(busqueda, ignoreCase = true) ||
+                zona.contains(busqueda, ignoreCase = true)
     }
     Column(
         Modifier
@@ -168,6 +188,12 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
     }
 }
 
+/**
+ * Campo de texto para buscar lugares por nombre o zona.
+ *
+ * @param busqueda Texto que se muestra en el buscador.
+ * @param onTextoChange Se llama con el texto nuevo cada vez que el usuario escribe.
+ */
 @Composable
 fun Buscador(busqueda: String, onTextoChange: (String) -> Unit) {
     OutlinedTextField(
@@ -183,6 +209,53 @@ fun Buscador(busqueda: String, onTextoChange: (String) -> Unit) {
     )
 }
 
+/**
+ * Cuadro con el número de lugares visitados y una barra de progreso animada.
+ *
+ * @param visitados Número de lugares visitados.
+ * @param total Número total de lugares.
+ */
+@Composable
+fun BarraContador(visitados: Int, total: Int) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(16.dp))
+            .padding(16.dp)
+    ) {
+        Text(
+            pluralStringResource(R.plurals.contador_visitados, visitados, visitados, total),
+            color = MaterialTheme.colorScheme.onPrimary,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp
+        )
+        Spacer(Modifier.padding(5.dp))
+        val progreso = if (total == 0) 0f else visitados.toFloat() / total
+        val progresoAnimado by animateFloatAsState(
+            targetValue = progreso,
+            animationSpec = tween(durationMillis = 300)
+        )
+        LinearProgressIndicator(
+            progress = { progresoAnimado },
+            color = MaterialTheme.colorScheme.tertiary,
+            trackColor = MaterialTheme.colorScheme.tertiaryContainer,
+            strokeCap = StrokeCap.Round,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(8.dp)
+
+        )
+    }
+}
+
+/**
+ * Lista con scroll de las tarjetas de los lugares.
+ *
+ * @param lugares Lugares que se muestran (ya filtrados por la búsqueda).
+ * @param onVisitadoChange Se llama con el id del lugar y su nuevo estado al marcar o desmarcar la casilla.
+ * @param modifier Modificador que se aplica a la lista.
+ */
 @Composable
 fun Tarjetas(lugares: List<Lugar>, onVisitadoChange: (Int, Boolean) -> Unit, modifier: Modifier = Modifier) {
     LazyColumn(
@@ -201,39 +274,15 @@ fun Tarjetas(lugares: List<Lugar>, onVisitadoChange: (Int, Boolean) -> Unit, mod
     }
 }
 
-@Composable
-fun BarraContador(visitados: Int, total: Int) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(16.dp))
-            .padding(16.dp)
-    ) {
-        Text(
-            pluralStringResource(R.plurals.contador_visitados, visitados, visitados, total),
-            color = MaterialTheme.colorScheme.onPrimary,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
-        )
-        Spacer(Modifier.padding(5.dp))
-        val progresoAnimado by animateFloatAsState(
-            targetValue = if (total == 0) 0f else visitados.toFloat() / total,
-            animationSpec = tween(durationMillis = 300)
-        )
-        LinearProgressIndicator(
-            progress = { progresoAnimado },
-            color = MaterialTheme.colorScheme.tertiary,
-            trackColor = MaterialTheme.colorScheme.tertiaryContainer,
-            strokeCap = StrokeCap.Round,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(8.dp)
-
-        )
-    }
-}
-
+/**
+ * Tarjeta de un lugar con su foto, nombre, zona, insignia y casilla de visitado.
+ *
+ * No guarda estado propio: muestra el [lugar] que recibe y avisa con
+ * [onVisitadoChange] cuando se pulsa la casilla.
+ *
+ * @param lugar Lugar que se muestra.
+ * @param onVisitadoChange Se llama con el nuevo valor al marcar o desmarcar la casilla.
+ */
 @Composable
 fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
     val altoFoto = 140.dp
@@ -299,6 +348,12 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
     }
 }
 
+/**
+ * Insignia que indica si un lugar se ha visitado. Cambia de color con una animación.
+ *
+ * @param visitado `true` para mostrar "Visitado" con un tick, `false` para "Sin visitar".
+ * @param modifier Modificador que se aplica a la insignia, por ejemplo su posición.
+ */
 @Composable
 fun InsigniaVisitado(visitado: Boolean, modifier: Modifier = Modifier) {
     val colorFondo by animateColorAsState(
@@ -333,6 +388,9 @@ fun InsigniaVisitado(visitado: Boolean, modifier: Modifier = Modifier) {
     }
 }
 
+/**
+ * Previews de la app en modo claro, modo oscuro e inglés.
+ */
 @Preview(name = "Claro", locale = "es", showBackground = true)
 @Preview(name = "Oscuro", locale = "es", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Preview(name = "Inglés", locale = "en", showBackground = true)

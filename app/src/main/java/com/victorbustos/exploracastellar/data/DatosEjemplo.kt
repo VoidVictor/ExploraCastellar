@@ -7,6 +7,9 @@ import com.victorbustos.exploracastellar.data.model.Lugar
 import com.victorbustos.exploracastellar.data.model.Reto
 import com.victorbustos.exploracastellar.data.model.TipoReto
 
+/**
+ * Datos de ejemplo en memoria con los lugares de Castellar-l'Oliveral y sus retos.
+ */
 object DatosEjemplo {
     val lugares: List<Lugar> = listOf(
 

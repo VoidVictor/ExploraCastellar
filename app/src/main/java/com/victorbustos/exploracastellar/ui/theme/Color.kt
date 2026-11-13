@@ -2,6 +2,10 @@ package com.victorbustos.exploracastellar.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+/*
+ * Paleta de colores de la app. Aquí solo se definen los colores;
+ */
+
 // Verdes
 val VerdeTitulo = Color(0xFFB8EF8F)
 val VerdeClaro = Color(0xFFB7DCD6)

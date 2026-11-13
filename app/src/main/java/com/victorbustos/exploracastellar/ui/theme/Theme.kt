@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
+/** Esquema de colores de la app en modo oscuro. */
 private val DarkColorScheme = darkColorScheme(
     primary = VerdeOscuro,
     onPrimary = Blanco,
@@ -27,6 +28,7 @@ private val DarkColorScheme = darkColorScheme(
     outlineVariant = GrisBorde
 )
 
+/** Esquema de colores de la app en modo claro. */
 private val LightColorScheme = lightColorScheme(
     primary = VerdeTitulo,
     onPrimary = Negro,
@@ -42,6 +44,13 @@ private val LightColorScheme = lightColorScheme(
     outlineVariant = GrisBorde
 )
 
+/**
+ * Tema de la app. Aplica la paleta clara u oscura según el modo del sistema.
+ *
+ * @param darkTheme `true` para usar los colores del modo oscuro.
+ * @param dynamicColor `true` para usar los colores del fondo de pantalla. Desactivado por defecto.
+ * @param content Contenido al que se aplica el tema.
+ */
 @Composable
 fun ExploraCastellarTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
