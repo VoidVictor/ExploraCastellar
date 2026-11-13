@@ -83,7 +83,7 @@ Lo arreglé así:
 
 He puesto un `Log.d` con la etiqueta `CicloVida` en `onCreate`, `onStart`, `onResume`, `onPause`, `onStop` y `onDestroy`. Al girar el móvil sale onPause, onStop, onDestroy y luego otra vez onCreate, onStart y onResume, o sea que la actividad se destruye y se vuelve a crear. Por eso hace falta `rememberSaveable`.
 
-<!-- <img src="capturas/logcat_rotacion.png" width="500"> -->
+<img src="capturas/logcat_rotacion.png" width="500">
 
 ## Depuración
 
