@@ -1,5 +1,6 @@
 package com.victorbustos.exploracastellar
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -61,6 +62,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.victorbustos.exploracastellar.data.model.Lugar
 import com.victorbustos.exploracastellar.data.DatosEjemplo
 import com.victorbustos.exploracastellar.ui.theme.ExploraCastellarTheme
@@ -75,21 +77,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ExploraCastellarTheme {
-                Scaffold(
-                    topBar = {
-                        CenterAlignedTopAppBar(title = { Text(stringResource(R.string.app_name),
-                            Modifier.padding(20.dp),
-                            fontSize = 40.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontStyle = FontStyle.Italic,
-                            letterSpacing = 2.sp) },
-                            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                titleContentColor = MaterialTheme.colorScheme.onPrimary
-                            ))
-
-                    }
-                ) { innerPadding -> PantallaPrincipal(Modifier.padding(innerPadding)) }
+                AppExplora()
             }
         }
     }
@@ -117,6 +105,25 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
         Log.d(TAG, "onDestroy")
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppExplora() {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(title = { Text(stringResource(R.string.app_name),
+                Modifier.padding(20.dp),
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold,
+                fontStyle = FontStyle.Italic,
+                letterSpacing = 2.sp) },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                ))
+        }
+    ) { innerPadding -> PantallaPrincipal(Modifier.padding(innerPadding)) }
 }
 
 @Composable
@@ -307,5 +314,15 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
                 )
             }
         }
+    }
+}
+
+@Preview(name = "Claro", locale = "es", showBackground = true)
+@Preview(name = "Oscuro", locale = "es", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Preview(name = "Inglés", locale = "en", showBackground = true)
+@Composable
+private fun AppExploraPreview() {
+    ExploraCastellarTheme {
+        AppExplora()
     }
 }
