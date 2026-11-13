@@ -42,12 +42,24 @@
     <string name="reto_12">Haz una foto de la puesta de sol desde el lago</string>
     <string name="reto_13">¿Cómo se llama el bosque que rodea el lago?</string>
 
+    <!-- Respuestas -->
+    <string name="respuesta_reto1">Carretera del Pi</string>
+    <string name="respuesta_reto4">Lepanto</string>
+    <string name="respuesta_reto5">XVIII</string>
+    <string name="respuesta_reto8">Albufera</string>
+    <string name="respuesta_reto9">Alfafar</string>
+    <string name="respuesta_reto10">Barca</string>
+    <string name="respuesta_reto13">Devesa</string>
+
     <!-- Buscador -->
     <string name="placeholder_buscador">Alquería, Tremolar, Saler,...</string>
     <string name="titulo_buscador">Buscar lugar</string>
 
     <!-- Barra progreso, contador de visitados -->
-    <string name="titulo_contador_barra">%1$d de %2$d lugares visitados</string>
+    <plurals name="contador_visitados">
+        <item quantity="one">%1$d lugar visitado de %2$d</item>
+        <item quantity="other">%1$d lugares visitados de %2$d</item>
+    </plurals>
 
     <!-- Checkbox -->
     <string name="texto_checkbox">Visitado</string>

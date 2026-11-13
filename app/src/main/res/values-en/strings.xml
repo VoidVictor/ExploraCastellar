@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Explora Castellar</string>
+    <string name="zona_castellar">Castellar</string>
+    <string name="zona_oliveral">L\'Oliveral</string>
+    <string name="zona_oliveral_pinedo">Between L\'Oliveral and Pinedo</string>
+    <string name="zona_tremolar">El Tremolar (Alfafar)</string>
+    <string name="zona_saler">El Saler</string>
+    <string name="lugar_1_nombre">Historic center of Castellar</string>
+    <string name="lugar_1_desc">The village originated from the merging of two settlements: Castellar, to the north of the Carretera del Pi, and l\'Oliveral, to the south.</string>
+    <string name="lugar_2_nombre">Iglesia de Nuestra Señora de Lepanto</string>
+    <string name="lugar_2_desc">The parish of Castellar, one of the stops on the City Council’s ‘Pobles del Sud’ (Southern Villages) route.</string>
+    <string name="lugar_3_nombre">Alquería del Brosquil</string>
+    <string name="lugar_3_desc">Protected 18th-century farmhouse with a colonnaded courtyard, surrounded by orange trees.</string>
+    <string name="lugar_4_nombre">Camí del Tremolar</string>
+    <string name="lugar_4_desc">A rural path between L\'Oliveral and Pinedo, featuring *barracas* (traditional thatched cottages) and traditional houses alongside the Albufera.</string>
+    <string name="lugar_5_nombre">Puerto de El Tremolar</string>
+    <string name="lugar_5_desc">A small jetty set among canals and rice paddies. In the past, boats laden with rice would arrive here for threshing.</string>
+    <string name="lugar_6_nombre">Estany del Pujol</string>
+    <string name="lugar_6_desc">The lake at El Saler, in the heart of La Devesa. One of the best spots to watch the sunset.</string>
+    <string name="reto_1">Which street separates Castellar of Oliveral?</string>
+    <string name="reto_2">Take a picture of the sign for the Carretera del Pi</string>
+    <string name="reto_3">Take a photo of the church facade.</string>
+    <string name="reto_4">To which battle does the name of the church refer?</string>
+    <string name="reto_5">From which century does the Alquería del Brosquil date?</string>
+    <string name="reto_6">Look for the fruit trees that surround the farmhouse.</string>
+    <string name="reto_7">Find a shed and take a photo of it (without entering private property)</string>
+    <string name="reto_8">Which natural park begins right next to the path?</string>
+    <string name="reto_9">To which municipality does El Tremolar belong?</string>
+    <string name="reto_10">During the June festivities, how does the Virgin arrive at El Tremolar?</string>
+    <string name="reto_11">Take a photo of a boat moored at the jetty.</string>
+    <string name="reto_12">Take a photo of the sunset from the lake.</string>
+    <string name="reto_13">What is the name of the forest that surrounds the lake?</string>
+    <string name="respuesta_reto13">Devesa</string>
+    <string name="placeholder_buscador">Alquería, Tremolar, Saler,...</string>
+    <string name="titulo_buscador">Find a place</string>
+    <plurals name="contador_visitados">
+        <item quantity="one">%1$d place visited out of %2$d</item>
+        <item quantity="other">%1$d places visited out of %2$d</item>
+    </plurals>
+    <string name="texto_checkbox">Visited</string>
+    <string name="respuesta_reto1">Carretera del Pi</string>
+    <string name="respuesta_reto4">Lepanto</string>
+    <string name="respuesta_reto5">XVIII</string>
+    <string name="respuesta_reto8">Albufera</string>
+    <string name="respuesta_reto9">Alfafar</string>
+    <string name="respuesta_reto10">Barca</string>
+</resources>

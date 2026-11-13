@@ -56,6 +56,7 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.victorbustos.exploracastellar.data.model.Lugar
 import com.victorbustos.exploracastellar.data.DatosEjemplo
@@ -121,7 +122,7 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
                 .padding(16.dp)
         ) {
             Text(
-                stringResource(R.string.titulo_contador_barra, visitados, total),
+                pluralStringResource(R.plurals.contador_visitados, visitados, visitados, total),
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
             )
