@@ -49,6 +49,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.LocationOn
@@ -59,9 +61,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.victorbustos.exploracastellar.data.model.Lugar
 import com.victorbustos.exploracastellar.data.DatosEjemplo
@@ -112,16 +114,27 @@ class MainActivity : ComponentActivity() {
 fun AppExplora() {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = { Text(stringResource(R.string.app_name),
-                Modifier.padding(20.dp),
-                fontSize = 40.sp,
-                fontWeight = FontWeight.Bold,
-                fontStyle = FontStyle.Italic,
-                letterSpacing = 2.sp) },
+            CenterAlignedTopAppBar(
+                title = {
+                    BasicText(
+                        text = stringResource(R.string.app_name),
+                        maxLines = 1,
+                        autoSize = TextAutoSize.StepBased(
+                            minFontSize = 18.sp,
+                            maxFontSize = 40.sp
+                        ),
+                        style = TextStyle(
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            fontWeight = FontWeight.Bold,
+                            fontStyle = FontStyle.Italic,
+                            letterSpacing = 2.sp
+                        )
+                    )
+                },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
-                ))
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
+            )
         }
     ) { innerPadding -> PantallaPrincipal(Modifier.padding(innerPadding)) }
 }
@@ -224,7 +237,6 @@ fun BarraContador(visitados: Int, total: Int) {
 @Composable
 fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
     val altoFoto = 140.dp
-    val altoInsignia = 24.dp
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -232,8 +244,8 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
-        Box {
-            Column {
+        Column {
+            Box {
                 Image(
                     painter = painterResource(lugar.imagen),
                     contentDescription = stringResource(lugar.nombre),
@@ -242,78 +254,82 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
                         .fillMaxWidth()
                         .height(altoFoto)
                 )
-
-                Row(
-                    Modifier.padding(start = 16.dp, top = 12.dp, bottom = 12.dp, end = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(Modifier.weight(1f)) {
-                        Text(
-                            stringResource(lugar.nombre),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                Icons.Outlined.LocationOn,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(14.dp)
-                            )
-                            Spacer(Modifier.width(4.dp))
-                            Text(stringResource(lugar.zona), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        }
-                    }
-                    Checkbox(
-                        checked = lugar.visitado,
-                        onCheckedChange = onVisitadoChange,
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = MaterialTheme.colorScheme.secondary,
-                            uncheckedColor = MaterialTheme.colorScheme.onSurface
-                        )
-                    )
-                }
+                InsigniaVisitado(visitado = lugar.visitado, modifier = Modifier.align(Alignment.BottomEnd).padding(10.dp))
             }
 
-            val colorFondo by animateColorAsState(
-                targetValue = if (lugar.visitado) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
-            )
-            val colorTextoInsignia by animateColorAsState(
-                targetValue = if (lugar.visitado) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSecondaryContainer
-            )
-            val textoInsignia = if (lugar.visitado) stringResource(R.string.visitado) else stringResource(
-                R.string.sin_visitar
-            )
             Row(
-                Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = altoFoto - altoInsignia / 2, end = 10.dp)
-                    .height(altoInsignia)
-                    .background(colorFondo, RoundedCornerShape(50))
-                    .padding(horizontal = 10.dp),
+                Modifier.padding(start = 16.dp, top = 12.dp, bottom = 12.dp, end = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (lugar.visitado) {
-                    Icon(
-                        Icons.Filled.Check,
-                        contentDescription = null,
-                        tint = colorTextoInsignia,
-                        modifier = Modifier.size(14.dp)
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        stringResource(lugar.nombre),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
-                    Spacer(Modifier.width(4.dp))
+                    Spacer(Modifier.height(4.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Outlined.LocationOn,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text(
+                            stringResource(lugar.zona),
+                            fontSize = 13.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
-                Text(
-                    textoInsignia,
-                    color = colorTextoInsignia,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.SemiBold
+                Checkbox(
+                    checked = lugar.visitado,
+                    onCheckedChange = onVisitadoChange,
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = MaterialTheme.colorScheme.secondary,
+                        uncheckedColor = MaterialTheme.colorScheme.onSurface
+                    )
                 )
             }
         }
+    }
+}
+
+@Composable
+fun InsigniaVisitado(visitado: Boolean, modifier: Modifier = Modifier) {
+    val colorFondo by animateColorAsState(
+        targetValue = if (visitado) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
+    )
+    val colorTextoInsignia by animateColorAsState(
+        targetValue = if (visitado) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSecondaryContainer
+    )
+    val textoInsignia = if (visitado) stringResource(R.string.visitado) else stringResource(R.string.sin_visitar)
+
+    Row(
+        modifier
+            .background(colorFondo, RoundedCornerShape(50))
+            .padding(horizontal = 10.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (visitado) {
+            Icon(
+                Icons.Filled.Check,
+                contentDescription = null,
+                tint = colorTextoInsignia,
+                modifier = Modifier.size(14.dp)
+            )
+            Spacer(Modifier.width(4.dp))
+        }
+        Text(
+            textoInsignia,
+            color = colorTextoInsignia,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.SemiBold
+        )
     }
 }
 
