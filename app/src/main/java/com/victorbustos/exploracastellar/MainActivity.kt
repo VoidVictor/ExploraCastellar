@@ -35,14 +35,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -60,7 +57,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.victorbustos.exploracastellar.data.model.Lugar
@@ -96,6 +93,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun PantallaPrincipal(modifier: Modifier = Modifier) {
+    var busqueda by rememberSaveable() { mutableStateOf("") }
     var lugares by rememberSaveable() { mutableStateOf(DatosEjemplo.lugares) }
     val visitados = lugares.count { it.visitado }
     val total = lugares.size
@@ -108,64 +106,25 @@ fun PantallaPrincipal(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .then(modifier)
     ) {
-        Buscador()
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(16.dp))
-                .padding(16.dp)
-        ) {
-            Text(
-                pluralStringResource(R.plurals.contador_visitados, visitados, visitados, total),
-                color = MaterialTheme.colorScheme.onPrimary,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
-            )
-            Spacer(Modifier.padding(5.dp))
-            val progresoAnimado by animateFloatAsState(
-                targetValue = if (total == 0) 0f else visitados.toFloat() / total,
-                animationSpec = tween(durationMillis = 300)
-            )
-            LinearProgressIndicator(
-                progress = { progresoAnimado },
-                color = MaterialTheme.colorScheme.tertiary,
-                trackColor = MaterialTheme.colorScheme.tertiaryContainer,
-                strokeCap = StrokeCap.Round,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(8.dp)
-
-            )
-        }
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(top = 15.dp),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(lugaresFiltrados, key = { it.id }) { lugar ->
-                TarjetaLugar(
-                    lugar = lugar,
-                    onVisitadoChange = { marcado ->
-                        lugares = lugares.map {
-                            if (it.id == lugar.id) it.copy(visitado = marcado) else it
-                        }
-                    }
-                )
-            }
-        }
+        Buscador(busqueda, onTextoChange = { busqueda = it })
+        BarraContador(visitados, total)
+        Tarjetas(
+            lugares = lugaresFiltrados,
+            onVisitadoChange = { id, marcado ->
+                lugares = lugares.map {
+                    if (it.id == id) it.copy(visitado = marcado) else it
+                }
+            },
+            modifier = Modifier.weight(1f)
+        )
     }
 }
 
 @Composable
-fun Buscador() {
-    var busqueda by rememberSaveable() { mutableStateOf("") }
+fun Buscador(busqueda: String, onTextoChange: (String) -> Unit) {
     OutlinedTextField(
         value = busqueda,
-        onValueChange = { busqueda = it },
+        onValueChange = onTextoChange,
         label = { Text(stringResource(R.string.titulo_buscador), color = MaterialTheme.colorScheme.tertiary) },
         placeholder = { Text(stringResource(R.string.placeholder_buscador)) },
         singleLine = true,
@@ -174,6 +133,57 @@ fun Buscador() {
             .fillMaxWidth()
             .padding(16.dp)
     )
+}
+
+@Composable
+fun Tarjetas(lugares: List<Lugar>, onVisitadoChange: (Int, Boolean) -> Unit, modifier: Modifier = Modifier) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 15.dp),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        items(lugares, key = { it.id }) { lugar ->
+            TarjetaLugar(
+                lugar = lugar,
+                onVisitadoChange = { marcado -> onVisitadoChange(lugar.id, marcado) }
+            )
+        }
+    }
+}
+
+@Composable
+fun BarraContador(visitados: Int, total: Int) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(16.dp))
+            .padding(16.dp)
+    ) {
+        Text(
+            pluralStringResource(R.plurals.contador_visitados, visitados, visitados, total),
+            color = MaterialTheme.colorScheme.onPrimary,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp
+        )
+        Spacer(Modifier.padding(5.dp))
+        val progresoAnimado by animateFloatAsState(
+            targetValue = if (total == 0) 0f else visitados.toFloat() / total,
+            animationSpec = tween(durationMillis = 300)
+        )
+        LinearProgressIndicator(
+            progress = { progresoAnimado },
+            color = MaterialTheme.colorScheme.tertiary,
+            trackColor = MaterialTheme.colorScheme.tertiaryContainer,
+            strokeCap = StrokeCap.Round,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(8.dp)
+
+        )
+    }
 }
 
 @Composable
@@ -240,8 +250,7 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
             val colorTextoInsignia by animateColorAsState(
                 targetValue = if (lugar.visitado) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSecondaryContainer
             )
-
-            val texto = if (lugar.visitado) stringResource(R.string.visitado) else stringResource(
+            val textoInsignia = if (lugar.visitado) stringResource(R.string.visitado) else stringResource(
                 R.string.sin_visitar
             )
             Row(
@@ -253,15 +262,17 @@ fun TarjetaLugar(lugar: Lugar, onVisitadoChange: (Boolean) -> Unit) {
                     .padding(horizontal = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    Icons.Filled.Check,
-                    contentDescription = null,
-                    tint = colorTextoInsignia,
-                    modifier = Modifier.size(14.dp)
-                )
-                Spacer(Modifier.width(4.dp))
+                if (lugar.visitado) {
+                    Icon(
+                        Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = colorTextoInsignia,
+                        modifier = Modifier.size(14.dp)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                }
                 Text(
-                    texto,
+                    textoInsignia,
                     color = colorTextoInsignia,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold
