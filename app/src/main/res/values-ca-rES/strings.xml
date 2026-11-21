@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Explora Castellar</string>
+    <string name="respuesta_reto5">XVIII</string>
+    <string name="respuesta_reto8">Albufera</string>
+    <string name="respuesta_reto9">Alfafar</string>
+    <string name="respuesta_reto13">Devesa</string>
+    <string name="placeholder_buscador">Alquería, Tremolar, Saler,...</string>
+    <string name="lugar_2_desc">La parròquia de Castellar, una de les parades de la ruta dels Pobles del Sud de l\'Ajuntament.</string>
+    <string name="lugar_3_nombre">Alquería del Brosquil</string>
+    <string name="lugar_3_desc">Alqueria protegida del segle XVIII amb pati porticat, envoltada de tarongers.</string>
+    <string name="lugar_4_nombre">Camí del Tremolar</string>
+    <string name="lugar_4_desc">Camí d´horta entre l´Oliveral i Pinedo, amb barraques i cases tradicionals al costat de l´Albufera.</string>
+    <string name="lugar_5_nombre">Port del Tremolar</string>
+    <string name="lugar_5_desc">Petit embarcador entre canals i arrossars. Abans arribaven aquí barques carregades d\'arròs per trillar-lo.</string>
+    <string name="respuesta_reto10">Barca</string>
+    <string name="zona_oliveral">L\'Oliveral</string>
+    <string name="zona_oliveral_pinedo">Entre l\'Oliveral y Pinedo</string>
+    <string name="reto_13">Com es diu el bosc que envolta el llac?</string>
+    <string name="respuesta_reto1">Carretera del Pi</string>
+    <string name="zona_castellar">Castellar</string>
+    <string name="reto_8">Quin parc natural comença a tocar del camí?</string>
+    <string name="reto_9">A quin municipi pertany El Tremolar?</string>
+    <string name="reto_10">A les festes de juny, en què arriba la Verge al Tremolar?</string>
+    <string name="zona_tremolar">El Tremolar (Alfafar)</string>
+    <string name="zona_saler">El Saler</string>
+    <string name="lugar_6_nombre">Estany del Pujol</string>
+    <string name="reto_6">Cerca quins arbres fruiters envolten l\'alqueria</string>
+    <string name="reto_7">Troba una barraca i fes-li una foto (sense entrar a propietat privada)</string>
+    <string name="reto_4">A quina batalla fa referència el nom de lesglésia?</string>
+    <string name="reto_5">De quin segle és l\'Alqueria del Brosquil?</string>
+    <string name="lugar_1_nombre">Nucli antic de Castellar</string>
+    <string name="lugar_1_desc">El poble va néixer d\'ajuntar dos nuclis: Castellar, al nord de la Carretera del Pi, i l\'Oliveral, al sud.</string>
+    <string name="lugar_2_nombre">Església de La nostra Senyora de Lepant</string>
+    <string name="respuesta_reto4">Lepant</string>
+    <string name="reto_11">Fes una foto d\'una barca amarrada a l\'embarcador</string>
+    <string name="reto_1">Quin carrer separa Castellar de l\'Oliveral?</string>
+    <string name="reto_2">Fes una foto del cartell de la Carretera del Pi</string>
+    <string name="reto_3">Fes una foto de la façana de l\'església</string>
+    <string name="reto_12">Fes una foto de la posta de sol des del llac</string>
+    <string name="lugar_6_desc">El llac del Saler, en plena Devesa. Un dels millors llocs per veure la posta de sol.</string>
+    <string name="visitado">Visitat</string>
+    <string name="sin_visitar">Sense visitar</string>
+    <string name="titulo_buscador">Cercar lloc</string>
+
+</resources>
